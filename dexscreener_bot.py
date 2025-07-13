@@ -1,17 +1,15 @@
 import os
 import logging
-import httpx  # Make sure this is present
-import json   # Add this if not present
+import httpx  
+import json   
 from dotenv import load_dotenv
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 from asyncio import sleep
 
-# Load environment variables
 load_dotenv()
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 
-# Enable logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
@@ -121,13 +119,13 @@ async def format_token_info(token_info: dict) -> str:
         except (ValueError, TypeError):
             return "N/A"
 
-    # Format values using the new function
+   
     fdv = format_number(pair.get('fdv', 0))
     liq = format_number(pair.get('liquidity', {}).get('usd', 0))
     price = format_number(pair.get('priceUsd', 'N/A'), '')
     volume = format_number(pair.get('volume', {}).get('h24', 'N/A'))
     
-    # Format price changes to 3 significant figures
+   
     try:
         price_change_24h = f"{float(pair.get('priceChange', {}).get('h24', 0)):.3g}"
         price_change_15m = f"{float(pair.get('priceChange', {}).get('m15', 0)):.3g}"
